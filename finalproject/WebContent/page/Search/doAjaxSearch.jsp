@@ -15,7 +15,7 @@
 </jsp:useBean>
 <jsp:setProperty property="*" name="search"/>
 
-<%
+<% //add
 	SearchService service  = SearchService.getInstance();
      List<StudyGroup> list =null;
      List<Users> listU = null;
