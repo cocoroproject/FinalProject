@@ -11,4 +11,19 @@ $(function(){
 			})
 		})
 	})
+		$('#mForm').submit(function(e){
+		alert('쪽지보내기 버튼');
+		event.preventDefault();
+		var params = $('#mForm').serialize();
+		$.ajax({
+			url: '../page/mypage/messageOk.jsp',
+			type:'post',
+			contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+			data:params,
+			dataType:'html',
+			success: function(data){
+				alert('메세지 보내기 성공');
+			}
+		})	
+	})
 })

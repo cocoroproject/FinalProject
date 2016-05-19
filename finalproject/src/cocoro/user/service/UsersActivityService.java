@@ -12,6 +12,7 @@ import cocoro.user.model.Comment;
 import cocoro.user.model.Follow;
 import cocoro.user.model.Likes;
 import cocoro.user.model.Mento;
+import cocoro.user.model.Message;
 import cocoro.user.model.Users;
 import cocoro.user.model.UsersAccount;
 
@@ -145,7 +146,26 @@ public class UsersActivityService {
 	public Users joinSearch(String searchKey){
 		return dao.joinSearch(searchKey);
 	}
-	
+	//메세지 보내기 
+	public int sendMessage(Message message){
+	return dao.sendMessage(message);
+		}
+	//받은 메세지 정보 
+	public List<Message> receiveMessage(int message_o_id){
+	return dao.receiveMessage(message_o_id);
+		}
+	//받은 메세지를 보낸사람의 정보
+	public List<Users> receiveInfo(int message_o_id){
+    return dao.receiveInfo(message_o_id);
+		}
+	//보낸 메세지 정보 
+		public List<Message> postMessage(int message_u_id){
+		return dao.postMessage(message_u_id);
+			}
+		//보낸 메세지를 받은사람 정보
+		public List<Users> postInfo(int message_u_id){
+	    return dao.postInfo(message_u_id);
+			}
 	
 	
 }

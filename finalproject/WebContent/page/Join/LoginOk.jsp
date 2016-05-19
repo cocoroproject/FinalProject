@@ -1,3 +1,6 @@
+<%@page import="java.io.PrintWriter"%>
+<%@page import="net.sf.json.JSONObject"%>
+<%@page import="net.sf.json.JSONArray"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="cocoro.user.model.Users"%>
 <%@page import="java.util.List"%>
@@ -11,6 +14,8 @@
 <%
 	String u_email = request.getParameter("u_email");
 	String u_pwd = request.getParameter("u_pwd");
+	JSONArray list = new JSONArray();
+	JSONObject object = null;
 	
 	//넘어온 ID Pass를 해쉬맵에 저장
 	HashMap<String, String> login = new HashMap<String, String>();
@@ -21,18 +26,18 @@
 	UsersActivityService activityService = UsersActivityService.getInstance();
 	Users users = activityService.usersLogin(login);
  	
-	//users 가  null 이란 소리는 디비에서 아무런 값도 못가져왔다는 것이기 떄문에
-	if(users == null){
-	 	System.out.println("\n로그인 실패");
-		response.sendRedirect("../Main.jsp");
-	//로그인 성공
-	}else{
-		session.setAttribute("users",users);
 		//세션
+		session.setAttribute("users",users);
+		//로그인 시간
 		activityService.usersLoginTime(users.getU_id());
- 		//인트로가 디폴트 값인 회원은 처음 가입한걸로 간주
- 		response.sendRedirect("../../layout/mainLayout.jsp");
- 	}
+		
+		object = new JSONObject();
+		object.put("users", users);
+		list.add(object);
+		
+		PrintWriter pw = response.getWriter();
+	    pw.print(list);
+	    pw.close();
 %>    
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>

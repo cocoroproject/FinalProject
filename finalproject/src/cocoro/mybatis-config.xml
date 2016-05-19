@@ -22,6 +22,9 @@
 		<typeAlias type="cocoro.user.model.UsersAccount" alias="UsersAccount" />
 		<typeAlias type="cocoro.user.model.Likes" alias="Likes" />
 		<typeAlias type="cocoro.user.model.Comment" alias="Comment" />
+		<typeAlias type="cocoro.user.model.Message" alias="Message" />
+		
+		
 		
 		
 		<typeAlias type="cocoro.studygroup.model.StudyGroup" alias="StudyGroup"/>
