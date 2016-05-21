@@ -51,5 +51,6 @@ public interface UsersMapper {
 	List<Users> receiveInfo(int message_o_id);			//받은 메세지를 보낸사람의 정보
 	List<Message> postMessage(int message_u_id);     //받은 메세지 검색
 	List<Users> postInfo(int message_u_id);			//받은 메세지를 보낸사람의 정보
+	int delMessage(int message_id);					//메세지 삭제
 
 }

@@ -233,6 +233,14 @@
 			ON m.MESSAGE_U_ID = u.U_ID
 			Where u.U_ID = #{u_id})
 	</select>
+	
+	
+	<!-- 해당 쪽지 삭제 -->
+	<delete id="delMessage" parameterType="int">
+	delete from Message
+	WHERE message_id = #{message_id}
+	</delete>
+	
 </mapper>
 
 

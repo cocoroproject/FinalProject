@@ -17,13 +17,13 @@
 
 .btnleft
 {
-	float: left;
+	float: right;
 	margin:0 0 0 8px;
 }
 
 #nameleft
 {
-	float: left;
+	float: right;
 	display: inline;
 	margin: 0 15px 0 0;
 }

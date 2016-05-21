@@ -581,4 +581,33 @@ public class UsersActivityDao {
 					}
 					return postInfo;
 				}
+				//해당 메세지 삭제 
+		public int delMessage(int message_id){
+			SqlSession session = getSqlSessionFactory().openSession();
+			int re =0;
+			try {
+				re = session.getMapper(UsersMapper.class).delMessage(message_id);
+				if(re>0){
+				session.commit();
+				}else{
+					session.rollback();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				session.close();
+			}
+			return re;
+		}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 }
