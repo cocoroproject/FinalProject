@@ -21,16 +21,15 @@
 	}
     
 	if((Users)session.getAttribute("users")!=null){
-		
 		header = "../page/headerAfter.jsp";
-		
+		body = "../page/Main.jsp";
 	}
 	if(header == null){
 		header = "../page/header.jsp";
 	}
 	if(body == null){
 		System.out.println("null아닙니다.");
-		body = "../page/Main.jsp";
+		body = "../page/beforeMain.jsp";
 	}
 	
 	//친구 판단

@@ -166,6 +166,9 @@ public class UsersActivityService {
 		public List<Users> postInfo(int message_u_id){
 	    return dao.postInfo(message_u_id);
 			}
-	
+	//해당 메시지 삭제
+		public int delMessage(int message_id){
+			return dao.delMessage(message_id);
+		}
 	
 }
