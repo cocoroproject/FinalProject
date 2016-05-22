@@ -22,7 +22,7 @@
     
 	if((Users)session.getAttribute("users")!=null){
 		header = "../page/headerAfter.jsp";
-		if(body == null){
+		if(body == null ){
 			body = "../page/Main.jsp";
 		}
 	}
