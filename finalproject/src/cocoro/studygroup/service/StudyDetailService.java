@@ -1,12 +1,14 @@
 package cocoro.studygroup.service;
 
 import java.util.List;
+import java.util.Map;
 
 import cocoro.studygroup.dao.StudyDetailDao;
 import cocoro.studygroup.dao.StudyGroupDao;
 import cocoro.studygroup.model.Apply;
 import cocoro.studygroup.model.Applydata;
 import cocoro.studygroup.model.PlanInfo;
+import cocoro.studygroup.model.StudyActivity;
 import cocoro.studygroup.model.StudyGroup;
 
 public class StudyDetailService {
@@ -42,6 +44,21 @@ public class StudyDetailService {
 		return dao.insertActivity(apply);
 	}
 	
+	public Object listCalendarService(int s_id){
+		return dao.listCalendarService(s_id);
+	}
+	
+	public StudyGroup selectStudy(int s_id){
+		return dao.selectStudy(s_id);
+	}
+	
+	public StudyActivity selectActivity(Apply apply){
+		
+		return dao.selectActivity(apply);
+	}
+	public void insertAbiliy(Map<String, Integer> map){
+		dao.insertAbiliy(map);
+	}
 	
 }
 

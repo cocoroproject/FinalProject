@@ -137,7 +137,21 @@
 	</select>
 	
 	<insert id="insertActivity" parameterType="Apply">
-		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY),#{u_id},#{s_id},SYSDATE,SYSDATE )
+		insert into STUDYACTIVITY values((select NVL(MAX(j_id),0) from STUDYACTIVITY)+1,#{u_id},#{s_id},SYSDATE,SYSDATE )
+	</insert>
+	<select id="listCalendarService" parameterType="int" resultType="PlanInfo">
+		select * from planinfo where s_id = #{s_id}
+	</select>
+	<select id="choseStudy" parameterType="int" resultType="StudyGroup">
+		select * from study where s_id = #{s_id}
+	</select>
+	<select id="selectActivity" parameterType="Apply" resultType="StudyActivity">
+		select * from studyactivity where s_id=#{s_id} and u_id =#{u_id}
+	</select>
+	<insert id="insertAbiliy" parameterType="java.util.HashMap">
+		insert into abilityInfo values(
+			(select nvl(Max(a_id),0) from abilityInfo)+1,#{j_id},#{rank}
+		)
 	</insert>
 
 </mapper>

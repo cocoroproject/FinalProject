@@ -2,15 +2,7 @@ package cocoro.mapper;
 
 import java.util.HashMap;
 import java.util.List;
-
-
-
-
-
-
-
-
-
+import java.util.Map;
 
 import cocoro.search.model.Search;
 import cocoro.search.model.tagSearch;
@@ -18,6 +10,7 @@ import cocoro.search.model.tagSuggestion;
 import cocoro.studygroup.model.Apply;
 import cocoro.studygroup.model.Applydata;
 import cocoro.studygroup.model.PlanInfo;
+import cocoro.studygroup.model.StudyActivity;
 import cocoro.studygroup.model.StudyGroup;
 import cocoro.user.model.Users;
 
@@ -42,4 +35,8 @@ public interface StudyGroupMapper {
 	public int deleteApply(int apply_id);
 	public Apply selectApply(int apply_id);
 	public int insertActivity(Apply apply);
+	public List listCalendarService(int s_id);
+	public StudyGroup choseStudy(int s_id);
+	public StudyActivity selectActivity(Apply apply);
+	public int insertAbiliy(Map<String, Integer> map);
 }
