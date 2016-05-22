@@ -52,7 +52,7 @@
 	String s_kind_check = request.getParameter("s_kind_check");
 	String s_max_member = request.getParameter("s_max_member");
 	String s_time_check = request.getParameter("s_time_check");
-	
+	System.out.println(s_max_member);
 %>    
     
 
