@@ -1,8 +1,10 @@
+<%@page import="cocoro.studygroup.service.StudyCRUDService"%>
+<%@page import="cocoro.studygroup.model.StudyGroup"%>
 <%@page import="cocoro.studygroup.model.Applydata"%>
 <%@page import="cocoro.studygroup.model.Apply"%>
 <%@page import="java.util.List"%>
 <%@page import="cocoro.studygroup.service.StudyDetailService"%>
-<%@page import="cocoro.studygroup.dao.StudyDetailDao"%> 
+<%@page import="cocoro.studygroup.dao.StudyDetailDao"%>
 <%@page import="cocoro.studygroup.service.StudyActivityService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -10,10 +12,13 @@
 <%
 	
 	StudyDetailService service = StudyDetailService.getInstance();
-	int s_id = Integer.parseInt(request.getParameter("s_id")) ; 
+	int s_id =4;
+	request.setAttribute("s_id", s_id);
 	List<Applydata> list =  service.applyList(s_id);
 	System.out.println(list.size()+"리스트사이즈");
 	request.setAttribute("list", list);
+	StudyGroup stg = service.selectStudy(s_id);
+	System.out.println(stg);
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html> 
@@ -25,11 +30,103 @@
 <script src='../js/calender/moment.min.js'></script>
 <script src='../js/calender/jquery.min.js'></script>
 <script src='../js/calender/fullcalendar.min.js'></script>
-<script src='../js/calender/ca.js'></script>
+<script type="text/javascript">//src='../js/calender/ca.js'
+(function($){
+	$(document).ready(function() {
+				var list=[];
+				var date = new Date();
+				var d = date.getDate();
+				var m = date.getMonth();
+				var y = date.getFullYear();
+				var temp = "<%=s_id%>";
+				//로드될때 해당 스터디의 일정을 검색해서 바인딩 시키는 부분
+				$.ajax({
+					url:'../json/json-events22.jsp?s_id=<%=s_id%>',
+					type:'post',
+					dataType:'json',
+					success:function(json){
+						console.log("ajax성공");
+						alert("찍혀야지");
+						for(var i=0; i<json.length;i++){
+							var jsonObj={};
+							jsonObj.id = json[i].plan_id;
+							jsonObj.title=json[i].plan_name;
+							jsonObj.start=json[i].plan_date ;
+							list.push(jsonObj);
+						}
+						$('#calendar').fullCalendar({
+							height: 430,
+							header: {
+								left: 'prev,next today',
+								center: 'title',
+							},
+							formatDate:'yyyy-MM-dd',
+							defaultDate: date,
+							editable: true,
+							eventLimit: true, // allow "more" link when too many events
+							events : list,
+							selectable: true,
+							select : function(start){
+								var title = prompt('Event title');
+								var content = prompt('Event content');
+								if(title){
+								      console.log((start)._d);
+						               console.log(start);
+						               console.log(this);
+						               eventData = {
+						                  title: title,
+						                  start: start
+						               };
+						           var full = (start)._d.getFullYear()+"-"+((start)._d.getUTCMonth()+1)+"-"+(start)._d.getDate();
+//									location.href='calenderInsert.jsp?plan_name='+title+"&plan_comment="+content+"&plan_date="+full;
+									$.ajax({
+										url:'insertschedule.jsp?plan_name='+title+"&plan_comment="+content+"&plan_date="+full+"&s_id="+temp,
+										type:'get',
+										dataType : 'json',
+										success: function(){
+											alert("꺼죨");
+										},
+										error:function(){
+											alert("안꺼죨");
+										}
+										
+									});//a작스닫기
+									
+									$('#calendar').fullCalendar('renderEvent',eventData,true);
+								}
+								$('#calendar').fullCalendar('unselect');
+							},
+							editable: true,
+							eventLimit: true, // allow "more" link when too many events
+							eventClick:function(calEvent, jsEvent, view) {
+								
+								alert('Event: ' + calEvent.title);
+						        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+						        alert('View: ' + view.name);
+				
+						        // change the border color just for fun
+						        $(this).css('border-color', 'red');
+						        
+								var title = prompt("뭐 넣을래?");
+								calEvent.title = title;
+						        
+				
+						        $('#calendar').fullCalendar('updateEvent', event,true);
+				
+						    }
+						});//캘린더 끝
+						},//success end
+					error:function(request,status,error,jqXHR, textStatus, errorThrown){
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error+"\n"+"jqXHR:"+jqXHR+"\n"+"textStatus:"+textStatus+"\n"+"thrown:"+errorThrown);
+					}//에러끝
+				});//ajax 끝
+	});
+})(jQuery);
+</script>
 <script type="text/javascript">
 	function applygogo(apply_id,index){
 		$.ajax({
-			url:'applygogo.jsp?apply_id='+apply_id,
+			url:'../json/applygogo.jsp?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
@@ -47,7 +144,7 @@
 	}
 	function rejectgogo(apply_id,index){
 		$.ajax({
-			url:'rejectgogo.jsp?apply_id='+apply_id,
+			url:'../json/rejectgogo.jsp?apply_id='+apply_id,
 			type:'get',
 			dataType : 'json',
 			success: function(){
@@ -69,7 +166,7 @@
 	<div class="bg-success" style="margin-left: 30px; margin-right: 30px;">
 	  		<div style="float: left;"><img src="ab.PNG" alt="..." class="img-thumbnail"></div>
 	  		<div class="top" style="padding-top:10px; padding-left:170px">
-	  		<p style="float: left;"><h3>영어 정복</h3></p>
+	  		<p style="float: left;"><h3>${study.s_name }</h3></p>
 	  		<button type="button" class="btn btn-danger">스터디룸 입장</button>
 	  		<button type="button" class="btn btn-default" aria-label="Left Align">
  				 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
@@ -122,12 +219,12 @@
 			<p>영어를 정복하기 위한 김정복씨와 함께하는 영어 스터디</p>
 			<br />
 			</div>
-			<div class="mid" style="border-top:5px solid white">
-				<div>
+			<div class="mid" style="height: 500px;width: 100%;border-top:5px solid white;">
+				<div style="height: 500px;float: left;">
 					<div>list 값</div>
 				</div>
-				<div>
-					<div id='calendar' style="width: 700px; height: 430px;"></div>
+				<div style="float: right;">
+					<div id='calendar' style="width: 700px; height: 450px;"></div>
 				</div>
 			</div>
 			<div class="foot" style="border-top:5px solid white">
