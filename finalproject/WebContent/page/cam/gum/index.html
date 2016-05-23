@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+ *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree.
+-->
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description" content="WebRTC code samples">
+  <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+  <meta itemprop="description" content="Client-side WebRTC code samples">
+  <meta itemprop="image" content="../../../images/webrtc-icon-192x192.png">
+  <meta itemprop="name" content="WebRTC code samples">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta id="theme-color" name="theme-color" content="#ffffff">
+
+  <base target="_blank">
+
+  <title>getUserMedia</title>
+
+  <link rel="icon" sizes="192x192" href="webrtc-icon-192x192.png">
+  <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="main.css">
+ <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.min.js"></script> 
+  <style type="text/css">
+  </style>
+<script type="text/javascript">
+    // 보기편하게 여러줄로 코딩
+   
+   $(function(){
+	   $('#btn').on("click",function(){
+		   alert("눌림");
+		   if($("#gum-local").css("display") == "none"){   
+		        jQuery('#gum-local').show();  
+		   } else {  
+		        jQuery('#gum-local').hide();  
+		    }
+		   
+	   })
+	   
+	 $("#video").resizable({
+	      maxHeight: 250,
+	      maxWidth: 350,
+	      minHeight: 150,
+	      minWidth: 200
+	    });
+
+    	 $('#video').draggable({
+    	 });
+    });
+    /*
+    $(function(){
+    	  $('#movie').draggable({
+    	       helper: function( event ) {
+    	    	   var a = $("<video id=gum-local autoplay></video>"); 
+    	    	   return a;
+    	        },
+    	        stop : $('#container').append("<video id=gum-local autoplay></video>")
+    	    });   
+    	 $('#gum-local').draggable({})
+    })
+    */
+</script>
+<style type="text/css">
+#container{
+	width: 200px;}
+</style>
+
+</head>
+
+<body id="body">
+<button id="btn">클릭</button>
+
+  <div id="container">
+    <ul>
+    	<li>음성</li>
+    </ul>
+  <div	id="video">  
+  <video id=gum-local controls="controls" url="webrtc-icon-192x192.png"></video>
+</div>
+  </div>
+  
+ 
+  <script src="js/adapter.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/ga.js"></script>
+
+</body>
+</html>
