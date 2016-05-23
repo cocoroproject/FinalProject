@@ -9,6 +9,7 @@ import cocoro.user.model.Comment;
 import cocoro.user.model.Follow;
 import cocoro.user.model.Likes;
 import cocoro.user.model.Mento;
+import cocoro.user.model.Message;
 import cocoro.user.model.Users;
 import cocoro.user.model.UsersAccount;
 
@@ -45,5 +46,11 @@ public interface UsersMapper {
 	int usersUnLike(HashMap<String, Integer> usersUnLike);//좋아요 취소
 	List<Users> autoSearch(String searchKey);			//자동완성 
 	Users joinSearch(String searchKey);				//중복체크
+	int sendMessage(Message message);					//메세지 보내기
+	List<Message> receiveMessage(int message_o_id);     //받은 메세지 검색
+	List<Users> receiveInfo(int message_o_id);			//받은 메세지를 보낸사람의 정보
+	List<Message> postMessage(int message_u_id);     //받은 메세지 검색
+	List<Users> postInfo(int message_u_id);			//받은 메세지를 보낸사람의 정보
+	int delMessage(int message_id);					//메세지 삭제
 
 }

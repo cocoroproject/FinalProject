@@ -1,3 +1,4 @@
+<%@page import="cocoro.user.model.Message"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="cocoro.user.model.Follow"%>
 <%@page import="cocoro.user.model.Likes"%>
@@ -77,7 +78,25 @@
              //프로그레스바에서 값쓰기위해 int로 goal 선언 
              goal = users.getU_goal_ration();
              System.out.println("본인이시군요");
-          //친구일떄
+             
+         //받은 메세지 목록
+     	    List<Message> receiveMessage = activityService.receiveMessage(users.getU_id());
+     	    request.setAttribute("receiveMessage", receiveMessage);
+     	
+     	 //받은 메세지를 보낸 친구의 정보
+     	    List<Users> receiveInfo = activityService.receiveInfo(users.getU_id());
+     	 	request.setAttribute("receiveInfo", receiveInfo);
+     	 	
+     	 //보낸 메세지 목록
+     	    List<Message> postMessage = activityService.postMessage(users.getU_id());
+     	    request.setAttribute("postMessage", postMessage);
+     	    System.out.println(postMessage.size());
+     	
+     	 //보낸 메세지를 받은 친구의 정보
+     	    List<Users> postInfo = activityService.postInfo(users.getU_id());
+     	 	request.setAttribute("postInfo", postInfo);
+     	 	System.out.println(postInfo.toString());
+     	 	//친구일떄
              }else{
           fUsers =  (Users)session.getAttribute("fUsers");
           goal = fUsers.getU_goal_ration();
@@ -93,11 +112,10 @@
           
           //팔로워 목록
           List<Users> fFollow = activityService.usersFollowList(fUsers.getU_id());
-                 request.setAttribute("fFollow", fFollow);
+          request.setAttribute("fFollow", fFollow);
           
           request.setAttribute("fComment", fComment);
           request.setAttribute("fCommentUsers", fCommentUsers);
-          
           }
        %>       
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -109,6 +127,34 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
    <link rel="stylesheet" href="../page/mypage/mypage.css">
    <script type="text/javascript" src="../page/mypage/mypage.js"></script>
+	<script type="text/javascript">
+	//받은 쪽지함 삭제  
+	function receiveDel(){
+				alert('삭제버튼');
+				$('#delMessage').submit();
+			};
+			$(function(){
+				$('#delMessage').submit(function(e){
+					event.preventDefault();
+					$.getJSON('../page/mypage/messageOk.jsp',{message_id : $('#message_id').val(), messageInfo : 'del_receive'},function(data){
+						$.each(data,function(key,value){
+							$('#receiveBody').empty();
+							var receive = '<tr>'	
+			  				receive += '<td>'+value.u_name +'</td>';
+			  				receive += '<td>'+value.message_Comment+'</td>';
+			  				receive += '<td>'+value.message_date+'</td>';
+			  				receive += '<td>'+value.message_check+'</td>';
+			  				receive += '<td><form id="delMessage" method="post">';
+			  				receive += '<input type="hidden" id="message_id" name="message_id" value="'+value.message_id+'">';
+			  				receive += '<button class="btn-primary" type="submit">삭제</button>';
+			  				receive += '</form>';  				
+			  				receive += '</td></tr>';
+			  				$('#receiveBody').append(receive);
+						})
+					})
+				})
+			})
+	</script>
 </head>
 <body>
 <div class="container">
@@ -129,8 +175,9 @@
       </c:if>
     <!-- 친구일때 이름 -->
        <c:if test="${fUsers != null }">
-          <h2>${fUsers.u_name}</h2>   
-      </c:if>
+          <h2 id="nameleft">${fUsers.u_name}</h2> 
+          <button class="btn btn-primary btn-sm btnleft" href="#signup" data-toggle="modal" data-target=".mSend"><i class="glyphicon glyphicon-envelope"></i></button>
+ 		</c:if>
    <!-- 친구일때 팔로우 / 좋아요 버튼 -->
    <%if(fUsers != null){
        usersLikeCheck.put("u_id", users.getU_id());
@@ -140,12 +187,12 @@
        if(likes_check != null){
    %>
       <form action="../page/mypage/mypageLikeOk.jsp?l_o_id=<%= fUsers.getU_id() %>" method="post">
-                        <button class="btn btn-danger col-xs-3 " id="u_like" type="submit">UnLike</button>
+                        <button class="btn btn-danger btn-sm btnleft" id="u_like" type="submit"><i class="glyphicon glyphicon-heart"></i></button>
       </form>   
    <%}else{ %>
     <form action="../page/mypage/mypageLikeOk.jsp?l_o_id=<%= fUsers.getU_id() %>" method="post">
                          <input type="hidden" value="T" name="l_check">
-                        <button class="btn btn-danger col-xs-3 " id="u_like" type="submit">Like</button>
+                        <button class="btn btn-danger btn-sm btnleft" id="u_like" type="submit"><i class="glyphicon glyphicon-heart-empty"></i></button>
       </form>  
    <%} %>
    <%
@@ -156,13 +203,14 @@
                    if(follow_check != null){%>
                         <form action="../page/mypage/mypageFollowOk.jsp?f_o_id=<%= fUsers.getU_id() %>" method="post">
                          <input type="hidden" value="F" name="f_check">
-                        <button class="btn btn-danger col-xs-6 " id="u_follow" type="submit" role="button">UnFollow</button>
+                        <button class="btn btn-danger btn-sm btnleft" id="u_follow" type="submit" role="button"><i class="glyphicon glyphicon-thumbs-down"></i></button>
                    </form>
                     <%   
                     }else{%>
                        <form action="../page/mypage/mypageFollowOk.jsp?f_o_id=<%= fUsers.getU_id() %>" method="post">
                          <input type="hidden" value="T" name="f_check">
-                        <button class="btn btn-warning col-xs-6 " id="u_follow" type="submit" role="button">Follow</button>
+                        <button class="btn btn-warning btn-sm btnleft" id="u_follow" type="submit" role="button"><i class="glyphicon glyphicon-thumbs-up"></i></button>
+                       
                    </form>
                    <% }%>
             <% }
@@ -462,7 +510,7 @@
                                                         팔로우 중인친구
                         <!-- 본인일때만 친구검색 버튼  -->
                         <c:if test="${fUsers == null}">   
-                          <button class="btn btn-info btn-sm"  data-toggle="modal" data-target=".autoSearch">친구검색</button>
+                          <button class="btn btn-info btn-sm" style="float: rigth;" data-toggle="modal" data-target=".autoSearch">친구검색</button>
                         </c:if>
                         </div>
                         <div class="panel-body">
@@ -510,6 +558,92 @@
                             </div>
                         </div>
                     </div>
+                        <c:if test="${fUsers == null}">           
+            <!-- 쪽지함 -->        
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                         쪽지함
+                     
+                        </div>
+                        <div class="panel-body">
+					<!-- 쪽지 탭 네이 -->
+						<div role="tabpanel">                            
+                              <!-- Nav tabs -->
+						  <ul class="nav nav-tabs" role="tablist">
+						    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">받은쪽지함</a></li>
+						    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">보낸쪽지함</a></li>
+						  </ul>
+					<!-- 받음 쪽지함 -->
+                     <div class="tab-content">
+					    <div role="tabpanel" class="tab-pane active" id="home">
+					      <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>보낸사람</th>
+                                            <th>내용</th>
+                                            <th>받은날짜</th>
+                                            <th>읽음 여부</th>
+                                        </tr>
+                                    </thead>
+                               <tbody id="receiveBody">
+                                 <c:forEach var="receiveMessage" items="${receiveMessage}"> 
+                                        <tr>
+                                 <!-- 답장 보류 답장 버튼을 눌렸을때 삭제가 되게할것인가 (그렇게하면 업데이트도간편 ) -->
+                                 	<c:forEach var="receiveInfo" items="${receiveInfo}">
+                                            <c:if test="${receiveMessage.message_u_id == receiveInfo.u_id }">
+                                            <td><a href="#signup" data-toggle="modal" data-target=".mSend2">${receiveInfo.u_name}</a></td>
+                                            </c:if>
+                                    </c:forEach>
+                                            <td>${receiveMessage.message_Comment}</td>
+                                            <td>${receiveMessage.message_date}</td>
+                                            <td>${receiveMessage.message_check}</td>
+                                          	<td>
+                                            <!-- 메세지 삭제 -->
+                                            <form id="delMessage" method="post">
+                                            <input type="hidden" id="message_id" name="message_id" value="${receiveMessage.message_id}">
+                                            <input type="hidden" id="messageInfo" name="messageInfo" value="del_receive">
+                                            </form>
+                                            <button class="btn-primary" onclick="receiveDel()">삭제</button>
+                                            </td>
+                                        </tr>
+                               	   </c:forEach>  
+                                    </tbody>
+                                </table>
+					    </div>
+					  <!--  보낸쪽지함 -->
+					    <div role="tabpanel" class="tab-pane" id="profile">
+					    <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>받는사람</th>
+                                            <th>내용</th>
+                                            <th>보낸날짜</th>
+                                            <th>읽음 여부</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="postBody">
+                                     <c:forEach var="postMessage" items="${postMessage}"> 
+                                        <tr>
+                                 	<c:forEach var="postInfo" items="${postInfo}">
+                                            <c:if test="${postMessage.message_o_id == postInfo.u_id }">
+                                            <td>${postInfo.u_name}</td>
+                                            </c:if>
+                                    </c:forEach>
+                                            <td>${postMessage.message_Comment}</td>
+                                            <td>${postMessage.message_date}</td>
+                                            <td>${postMessage.message_check}</td>
+                                        </tr>
+                                  </c:forEach> 
+                                    </tbody> 
+                                </table>
+					    </div>
+                    </div>
+                            </div>
+                        </div>
+                    </div>
+                 </c:if>   
+                    </div>
+                </div>
                     </div>
                 </div>
               <!--후기-->
@@ -678,6 +812,22 @@
     </div>
   </div>
 </div>
+
+<!-- 쪽지 보내기 -->
+ <div class="modal fade mSend" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      	<h3 class="text-center">메세지보내기</h3>
+      	<form method="post" id="mForm">
+			<textarea rows="10" cols="39"  name="message_comment"></textarea>
+			 <input type="hidden" name="message_o_id" value="${fUsers.u_id}">	
+			 <input type="hidden" id="messageInfo" name="messageInfo" value="insert">
+            <button type="submit" class="btn-block btn-primary" id="mBtn">메세지 보내기</button>
+    	</form>
+    </div>
+  </div>
+</div>
+
 <c:if test="${fUsers == null}">
 <a href="../layout/mainLayout.jsp?body=../page/mypage/mypageModify.jsp" class="text-right">수정하기</a>
 </c:if>

@@ -18,6 +18,7 @@ import cocoro.user.model.Comment;
 import cocoro.user.model.Follow;
 import cocoro.user.model.Likes;
 import cocoro.user.model.Mento;
+import cocoro.user.model.Message;
 import cocoro.user.model.Users;
 import cocoro.user.model.UsersAccount;
 
@@ -510,4 +511,103 @@ public class UsersActivityDao {
 		}
 		return users;
 	}
+	//쪽지보내기 
+	public int sendMessage(Message message){
+		SqlSession session = getSqlSessionFactory().openSession();
+		int re = 0;
+		try{
+			re = session.getMapper(UsersMapper.class).sendMessage(message);
+			if(re > 0){
+				session.commit();
+			}else{
+				session.rollback();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+		return re;
+	}
+	//받은 쪽지 정보 
+		public List<Message> receiveMessage(int message_o_id){
+			SqlSession session = getSqlSessionFactory().openSession();
+			List<Message> receiveMessage = null;
+			try{
+				receiveMessage = session.getMapper(UsersMapper.class).receiveMessage(message_o_id);
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally {
+				session.close();
+			}
+			return receiveMessage;
+		}
+		//받은 메세지를 보낸사람의 정보
+		public List<Users> receiveInfo(int message_o_id){
+			SqlSession session = getSqlSessionFactory().openSession();
+			List<Users> receiveInfo = null;
+			try{
+				receiveInfo = session.getMapper(UsersMapper.class).receiveInfo(message_o_id);
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally {
+				session.close();
+			}
+			return receiveInfo;
+		}
+			//보낸 쪽지 정보 
+				public List<Message> postMessage(int message_u_id){
+					SqlSession session = getSqlSessionFactory().openSession();
+					List<Message> postMessage = null;
+					try{
+						postMessage = session.getMapper(UsersMapper.class).postMessage(message_u_id);
+					}catch(Exception e){
+						e.printStackTrace();
+					}finally {
+						session.close();
+					}
+					return postMessage;
+				}
+				//보낸 메세지를 받은 사람정보
+				public List<Users> postInfo(int message_u_id){
+					SqlSession session = getSqlSessionFactory().openSession();
+					List<Users> postInfo = null;
+					try{
+						postInfo = session.getMapper(UsersMapper.class).postInfo(message_u_id);
+					}catch(Exception e){
+						e.printStackTrace();
+					}finally {
+						session.close();
+					}
+					return postInfo;
+				}
+				//해당 메세지 삭제 
+		public int delMessage(int message_id){
+			SqlSession session = getSqlSessionFactory().openSession();
+			int re =0;
+			try {
+				re = session.getMapper(UsersMapper.class).delMessage(message_id);
+				if(re>0){
+				session.commit();
+				}else{
+					session.rollback();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				session.close();
+			}
+			return re;
+		}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 }

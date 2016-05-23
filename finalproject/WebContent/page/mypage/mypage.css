@@ -15,6 +15,19 @@
     width: 150px; 
 }
 
+.btnleft
+{
+	float: right;
+	margin:0 0 0 8px;
+}
+
+#nameleft
+{
+	float: right;
+	display: inline;
+	margin: 0 15px 0 0;
+}
+
 @media (max-width:768px)
 {
     
@@ -29,5 +42,6 @@
     z-index: 9;
     width: 20%; 
 }
-}
 
+
+}

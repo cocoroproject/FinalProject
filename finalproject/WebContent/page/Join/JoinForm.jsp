@@ -9,14 +9,18 @@ response.setContentType("text/html;charset=UTF-8");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<!--  <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-	<script src="../js/bootstrap.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
--->  
+<script type="text/javascript">
+$(function(){
+	$('#submitbtn').click(function(){
+			alert($('#name').val());
+		if($('#password').val ="" ||  $('#name').val == ""|| $('#reenterpassword').val == ""|| $('#searchTextField').val == ""|| $('#birth').val == ""){
+			alert("nono");
+		} else {
+			$('#Joinform').submit();
+		}
+	})
+})
+</script>
 </head>
 
 <body>
@@ -25,7 +29,7 @@ response.setContentType("text/html;charset=UTF-8");
 	<div class="row">
 		<div class="col-md-3"></div>
 		<div class="tab-pane col-md-6" id="signup">
-			<form class="form-horizontal" action="../page/Join/JoinOk.jsp" method="post">
+			<form class="form-horizontal" action="../page/Join/JoinOk.jsp" method="post" id="Joinform">
 				<fieldset>
 					<!-- Sign Up Form Text input -->
 					<div class="control-group">
@@ -57,7 +61,7 @@ response.setContentType("text/html;charset=UTF-8");
 
 
 						<div class="controls">
-							<label class="control-label">이름</label> <input id="username"
+							<label class="control-label">이름</label> <input id="name"
 								name="u_name" class="form-control input-large" type="text"
 								placeholder="이름">
 						</div>
@@ -103,26 +107,16 @@ response.setContentType("text/html;charset=UTF-8");
 
 						</div>
 					</div>
-
-
-
 					<!-- Button -->
 					<br>
 					<div class="control-group">
 						<!-- <label class="control-label" for="confirmsignup"></label> -->
 						<div class="controls">
-							<!-- <button id="confirmsignup" name="confirmsignup"
-													class="btn btn-danger">Sign Up</button> -->
-							<input type="submit" class="btn-success form-control input-large"
-								value="회원 가입" />
-
+							<!-- <input type="submit" class="btn-success form-control input-large" value="회원 가입" />
+							 -->
+							 <input type="button" id="submitbtn" class="btn-success form-control input-large" value="회원 가입" />
 						</div>
 					</div>
-
-
-
-
-
 				</fieldset>
 			</form>
 		</div>
@@ -149,9 +143,6 @@ response.setContentType("text/html;charset=UTF-8");
 	<script type="text/javascript" src="../js/Join/loginStart.js"></script>
 		<script type="text/javascript">
 	$(function(){
-	
-		
-		
 		
 	$('#Email').keyup(function(){
 				$.getJSON('../../page/Join/JoinSearch.jsp',{searchKey:$('#Email').val()},function(data){
