@@ -25,6 +25,7 @@ public class SearchService {
 	private String fileName = "C:/Users/OHYEONJU/CocoPro/Cocoro/data/recommend.csv";
 
 	public static SearchService getInstance() {
+		//check 
 		searchDao = SearchDao.getInstance();
 		return dao;
 	}
