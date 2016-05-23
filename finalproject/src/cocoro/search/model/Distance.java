@@ -1,7 +1,7 @@
 package cocoro.search.model;
 
 public class Distance {
-
+ 
 	
 public static double calDistance(double lat1, double lon1, double lat2, double lon2){  
 	    
