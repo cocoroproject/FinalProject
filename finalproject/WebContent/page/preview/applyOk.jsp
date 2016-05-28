@@ -28,7 +28,7 @@
 	
 	if(re > 0)
 	{	
-		response.sendRedirect("list.jsp");
+		response.sendRedirect("../../layout/mainLayout.jsp?body=../jsp/studydetail.jsp?s_id="+s_id);
 	}
 	else
 	{

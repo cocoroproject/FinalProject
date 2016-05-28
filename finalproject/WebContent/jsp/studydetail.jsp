@@ -12,7 +12,7 @@
 <%
 	
 	StudyDetailService service = StudyDetailService.getInstance();
-	int s_id =4;
+	int s_id =2;
 	request.setAttribute("s_id", s_id);
 	List<Applydata> list =  service.applyList(s_id);
 	System.out.println(list.size()+"리스트사이즈");
@@ -46,7 +46,6 @@
 					dataType:'json',
 					success:function(json){
 						console.log("ajax성공");
-						alert("찍혀야지");
 						for(var i=0; i<json.length;i++){
 							var jsonObj={};
 							jsonObj.id = json[i].plan_id;

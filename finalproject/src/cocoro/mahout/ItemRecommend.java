@@ -15,6 +15,7 @@ import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.model.JDBCDataModel;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 
@@ -27,6 +28,7 @@ public class ItemRecommend {
 
       try {
          DataModel dm = new FileDataModel(new File("C:/Users/OHYEONJU/CocoPro/Cocoro/data/recommend.csv"));
+         
          ItemSimilarity sim = new LogLikelihoodSimilarity(dm);
 
          // TanimotoCoefficientSimilarity sim = new

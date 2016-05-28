@@ -27,6 +27,8 @@
 		<typeAlias type="cocoro.studygroup.model.PlanInfo" alias="PlanInfo" />
 		<typeAlias type="cocoro.studygroup.model.Apply" alias="Apply" />
 		<typeAlias type="cocoro.studygroup.model.Applydata" alias="Applydata" />
+		<typeAlias type="cocoro.studygroup.model.StudyActivity" alias="StudyActivity" />
+		
 	</typeAliases>
 
 	<environments default="development">
