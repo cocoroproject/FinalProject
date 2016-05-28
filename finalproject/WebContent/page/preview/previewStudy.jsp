@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="cocoro.studygroup.model.StudyActivity"%>
 <%@page import="cocoro.user.model.Users"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -21,6 +23,7 @@
 	StudyCRUDService service = StudyCRUDService.getInstance();
 	StudyGroup studygroup = service.selectStudyService(s_id);
 	
+
 	int re = service.updateHit(studygroup);
 	if(re > 0)
 	{
@@ -30,10 +33,17 @@
 	}
 	
 	request.setAttribute("studygroup", studygroup);
-
- 	Users users = service.selectUsers(s_id, studygroup.getS_leader_id()); 
+	
+	
+	// 스터디 리더
+ 	Users users = service.selectUsers(s_id, studygroup.getS_leader_id());   
  	request.setAttribute("users", users); 
 	
+ 	// 스터디 멤버
+ 	List<Users> studyMembers = new ArrayList<Users>();
+ 	studyMembers = service.selectStduyMember(s_id);
+ 	request.setAttribute("studyMembers", studyMembers);
+ 	
 		/* 스터디 시간계산 */
        int s_t_start = 0;	
 	   int s_t_end = 0;
@@ -51,7 +61,7 @@
        end_min = s_t_end%60;
        
        
-%>            
+%>     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -70,28 +80,22 @@
 function fn_enter() {
 	location.href = "../../jsp/studydetail.jsp"
 };
+var studyMembers = "${studyMembers}";
+
+
 var chart = AmCharts.makeChart( "chartdiv", {
 	  "type": "serial",
 	  "theme": "light",
 	  "dataProvider": [ {
-	    "member": "김동현",
+		  
+		  
+	  
+		"member": "김동현",
 	    "rank": 5
-	  }, {
-	    "member": "오연주",
-	    "rank": 7
-	  }, {
-	    "member": "정상효",
-	    "rank": 9
-	  }, {
-	    "member": "최지웅",
-	    "rank": 8
-	  }, {
-		"member": "공장장",
-		"rank": 1
-	  }, {
-	    "member": "고석진",
-	    "rank": 6
-	  } ],
+	 
+	  
+	  
+	  }],
 	  "valueAxes": [ {
 	    "gridColor": "#FFFFFF",
 	    "gridAlpha": 0.2,

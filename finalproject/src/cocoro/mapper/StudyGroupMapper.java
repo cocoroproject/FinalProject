@@ -39,4 +39,5 @@ public interface StudyGroupMapper {
 	public StudyGroup choseStudy(int s_id);
 	public StudyActivity selectActivity(Apply apply);
 	public int insertAbiliy(Map<String, Integer> map);
+	public List<Users> selectStudyMember(int s_id);
 }

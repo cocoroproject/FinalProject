@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cocoro.studygroup.dao.StudyGroupDao;
+import cocoro.studygroup.model.StudyActivity;
 import cocoro.studygroup.model.StudyGroup;
 import cocoro.user.model.Users;
 
@@ -27,6 +28,10 @@ public class StudyCRUDService {
 	}
 	public StudyGroup selectStudyService(int s_id){
 		return dao.selectStudy(s_id);
+	}
+	
+	public List<Users> selectStduyMember(int s_id){
+		return dao.selectStudyMember(s_id);
 	}
 	
 	public int updateHit(StudyGroup studygroup){

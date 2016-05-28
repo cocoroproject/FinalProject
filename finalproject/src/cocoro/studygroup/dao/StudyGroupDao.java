@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import cocoro.mapper.StudyGroupMapper;
+import cocoro.studygroup.model.StudyActivity;
 import cocoro.studygroup.model.StudyGroup;
 import cocoro.user.model.Users;
 
@@ -150,6 +151,11 @@ public class StudyGroupDao {
 	public Users selectUsers(HashMap<String, Integer> map) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		return sqlSession.getMapper(StudyGroupMapper.class).selectUsers(map);
+	}
+	public List<Users> selectStudyMember(int s_id) {
+
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		return sqlSession.getMapper(StudyGroupMapper.class).selectStudyMember(s_id);
 	}
 	
 
